@@ -2,7 +2,7 @@ require("impatient")
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = true
-lvim.colorscheme = "lunar"
+lvim.colorscheme = "vscode"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -192,6 +192,7 @@ lvim.builtin.which_key.mappings["C"] = {
 
 lvim.plugins = {
 	"simrat39/rust-tools.nvim",
+	"Mofiqul/vscode.nvim",
 	{
 		"saecki/crates.nvim",
 		tag = "v0.3.0",
