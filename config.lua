@@ -213,6 +213,7 @@ lvim.plugins = {
 	"preservim/tagbar",
 	"lewis6991/impatient.nvim",
 	"m-demare/hlargs.nvim",
+	"github/copilot.vim",
 	{
 		"saecki/crates.nvim",
 		tag = "v0.3.0",
