@@ -2,7 +2,7 @@ local _, _ = pcall(require, "impatient")
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = true
-lvim.colorscheme = "vscode"
+lvim.colorscheme = "lunar"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -48,7 +48,7 @@ end
 require("lualine").setup({
 	options = {
 		-- ...
-		theme = "vscode",
+		theme = "lunar",
 		-- ...
 	},
 })
@@ -68,6 +68,14 @@ local ok, hl = pcall(require, "hlargs")
 if ok then
 	hl.setup()
 end
+
+vim.g.copilot_filetypes = {
+	["*"] = false,
+	["rust"] = true,
+	["javascript"] = true,
+	["lua"] = true,
+	["toml"] = true,
+}
 
 lvim.builtin.which_key.mappings["t"] = {
 	name = "Diagnostics",
@@ -153,7 +161,7 @@ pcall(function()
 					},
 					checkOnSave = {
 						enable = true,
-						command = "clippy",
+						command = "check",
 					},
 					inlayHints = {
 						lifetimeElisionHints = {
@@ -185,7 +193,7 @@ end
 
 vim.api.nvim_set_keymap("n", "<m-d>", "<cmd>RustOpenExternalDocs<Cr>", { noremap = true, silent = true })
 
-lvim.builtin.which_key.mappings["C"] = {
+lvim.builtin.which_key.mappings["r"] = {
 	name = "Rust",
 	r = { "<cmd>RustRunnables<Cr>", "Runnables" },
 	t = { "<cmd>lua _CARGO_TEST()<cr>", "Cargo Test" },
@@ -216,8 +224,8 @@ lvim.plugins = {
 	"github/copilot.vim",
 	{
 		"saecki/crates.nvim",
-		tag = "v0.3.0",
-		requires = { "nvim-lua/plenary.nvim" },
+		version = "v0.3.0",
+		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			require("crates").setup({
 				null_ls = {
@@ -244,7 +252,7 @@ lvim.plugins = {
 	},
 	{
 		"folke/trouble.nvim",
-		requires = "nvim-tree/nvim-web-devicons",
+		dependencies = "nvim-tree/nvim-web-devicons",
 		config = function()
 			require("trouble").setup()
 		end,
