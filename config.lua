@@ -2,6 +2,7 @@
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = true
 lvim.colorscheme = "vscode"
+
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -15,6 +16,8 @@ vim.cmd("set wildmode=list,longest")
 
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.insert_mode["<C-s>"] = ":w<cr>"
+lvim.keys.normal_mode["H"] = ":bp<CR>"
+lvim.keys.normal_mode["L"] = ":bn<CR>"
 lvim.builtin.terminal.open_mapping = "<c-t>"
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
@@ -84,4 +87,12 @@ lvim.plugins = {
 		"folke/trouble.nvim",
 		dependencies = "nvim-tree/nvim-web-devicons",
 	},
+  {
+    "doctorfree/cheatsheet.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "nvim-lua/popup.nvim",
+      "nvim-lua/plenary.nvim",
+    },
+  }
 }
