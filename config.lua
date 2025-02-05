@@ -26,6 +26,7 @@ lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enable = true
 lvim.builtin.treesitter.rainbow.enable = true
+lvim.builtin.nvimtree.active = false
 
 lvim.builtin.treesitter.ensure_installed = {
 	"lua",
@@ -40,6 +41,9 @@ vim.g.copilot_filetypes = {
 	["lua"] = true,
 	["toml"] = true,
 }
+lvim.builtin.which_key.mappings["e"] = { "<cmd>Neotree toggle<CR>", "Explorer" }
+lvim.builtin.which_key.mappings["o"] = { "<cmd>Neotree focus<CR>", "Explorer" }
+
 
 lvim.builtin.which_key.mappings["t"] = {
 	name = "Diagnostics",
@@ -94,5 +98,13 @@ lvim.plugins = {
       "nvim-lua/popup.nvim",
       "nvim-lua/plenary.nvim",
     },
-  }
+  },
+  { "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x", -- specify the branch if needed
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim"
+    }
+  },
 }
