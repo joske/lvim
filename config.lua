@@ -14,11 +14,6 @@ lvim.leader = "space"
 vim.cmd("set showmatch")
 vim.cmd("set wildmode=list,longest")
 
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-lvim.keys.insert_mode["<C-s>"] = ":w<cr>"
-lvim.keys.normal_mode["H"] = ":bp<CR>"
-lvim.keys.normal_mode["L"] = ":bn<CR>"
-lvim.builtin.terminal.open_mapping = "<c-t>"
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = true
@@ -41,9 +36,14 @@ vim.g.copilot_filetypes = {
 	["lua"] = true,
 	["toml"] = true,
 }
+lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.keys.insert_mode["<C-s>"] = ":w<cr>"
+lvim.keys.normal_mode["H"] = ":bp<CR>"
+lvim.keys.normal_mode["L"] = ":bn<CR>"
+lvim.keys.normal_mode["<leader>s"] = false
+lvim.builtin.terminal.open_mapping = "<c-t>"
 lvim.builtin.which_key.mappings["e"] = { "<cmd>Neotree toggle<CR>", "Explorer" }
 lvim.builtin.which_key.mappings["o"] = { "<cmd>Neotree focus<CR>", "Explorer" }
-
 
 lvim.builtin.which_key.mappings["t"] = {
 	name = "Diagnostics",
@@ -63,6 +63,24 @@ formatters.setup({
 
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "rust_analyzer" })
 
+lvim.builtin.which_key.mappings["f"] = {
+	name = "Find",
+  c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
+  h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
+  f = { "<cmd>Telescope find_files<cr>", "Find File" },
+  H = { "<cmd>Telescope highlights<cr>", "Find highlight groups" },
+  M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
+  r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
+  R = { "<cmd>Telescope registers<cr>", "Registers" },
+  w = { "<cmd>Telescope live_grep<cr>", "Text" },
+  k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
+  C = { "<cmd>Telescope commands<cr>", "Commands" },
+  l = { "<cmd>Telescope resume<cr>", "Resume last search" },
+  p = {
+    "<cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<cr>",
+    "Colorscheme with Preview",
+  },
+}
 lvim.builtin.which_key.mappings["r"] = {
 	name = "Rust",
 	r = { "<cmd>RustLsp runnables<Cr>", "Runnables" },
