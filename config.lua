@@ -41,7 +41,9 @@ lvim.keys.insert_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["H"] = ":bp<CR>"
 lvim.keys.normal_mode["L"] = ":bn<CR>"
 lvim.keys.normal_mode["<leader>s"] = false
-lvim.builtin.terminal.open_mapping = "<c-t>"
+
+lvim.builtin.terminal.open_mapping = "<F7>"
+
 lvim.builtin.which_key.mappings["e"] = { "<cmd>Neotree toggle<CR>", "Explorer" }
 lvim.builtin.which_key.mappings["o"] = { "<cmd>Neotree focus<CR>", "Explorer" }
 
