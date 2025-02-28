@@ -10,7 +10,6 @@ lvim.colorscheme = "vscode"
 vim.api.nvim_set_keymap("", "<Space>", "<Nop>", { noremap = true, silent = true })
 lvim.leader = "space"
 
-
 vim.cmd("set showmatch")
 vim.cmd("set wildmode=list,longest")
 
@@ -22,6 +21,9 @@ lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enable = true
 lvim.builtin.treesitter.rainbow.enable = true
 lvim.builtin.nvimtree.active = false
+lvim.lsp.automatic_servers_installation = false
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "rust_analyzer" })
+
 
 lvim.builtin.treesitter.ensure_installed = {
   "lua",
@@ -57,13 +59,10 @@ lvim.builtin.which_key.mappings["t"] = {
   r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
 }
 
-
 local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
   { command = "stylua", filetypes = { "lua" } },
 })
-
-vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "rust_analyzer" })
 
 lvim.builtin.which_key.mappings["f"] = {
   name = "Find",
@@ -92,18 +91,13 @@ lvim.builtin.which_key.mappings["r"] = {
   p = { "<cmd>RustLsp parentModule<Cr>", "Parent Module" },
   d = { "<cmd>RustLsp debuggables<Cr>", "Debuggables" },
   v = { "<cmd>RustLsp crateGraph<Cr>", "View Crate Graph" },
-  R = { "<cmd>RustLsp reloadWorkspace", "Reload Workspace", },
+  R = { "<cmd>RustLsp reloadWorkspace", "Reload Workspace" },
   o = { "<cmd>RustLsp externalDocs<Cr>", "Open External Docs" },
 }
 
 lvim.plugins = {
   "Mofiqul/vscode.nvim",
   "github/copilot.vim",
-  {
-    'mrcjkb/rustaceanvim',
-    version = '^5', -- Recommended
-    lazy = false,   -- This plugin is already lazy
-  },
   {
     "j-hui/fidget.nvim",
   },
@@ -125,21 +119,40 @@ lvim.plugins = {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim"
-    }
+      "MunifTanjim/nui.nvim",
+    },
+  },
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^5', -- Recommended
+    lazy = false,   -- This plugin is already lazy
   },
   {
     "cordx56/rustowl",
-    dependencies = { "neovim/nvim-lspconfig" }
+    dependencies = { "neovim/nvim-lspconfig" },
   },
 }
 
 lvim.autocommands = {
   {
-    "BufEnter",                    -- see `:h autocmd-events`
-    {                              -- this table is passed verbatim as `opts` to `nvim_create_autocmd`
-      pattern = { "*.md", },       -- see `:h autocmd-events`
+    "BufEnter",             -- see `:h autocmd-events`
+    {                       -- this table is passed verbatim as `opts` to `nvim_create_autocmd`
+      pattern = { "*.md" }, -- see `:h autocmd-events`
       command = "setlocal wrap",
-    }
+    },
   },
 }
+
+local lspconfig = require 'lspconfig'
+local configs = require 'lspconfig.configs'
+
+if not configs.rustowl then
+  configs.rustowl = {
+    default_config = {
+      cmd = { 'cargo', 'owlsp' },
+      root_dir = lspconfig.util.root_pattern('.git'),
+      filetypes = { 'rust' },
+    },
+  }
+end
+lspconfig.rustowl.setup {}
