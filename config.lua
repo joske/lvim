@@ -24,7 +24,6 @@ lvim.builtin.nvimtree.active = false
 lvim.lsp.automatic_servers_installation = false
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "rust_analyzer" })
 
-
 lvim.builtin.treesitter.ensure_installed = {
   "lua",
   "rust",
@@ -67,6 +66,8 @@ formatters.setup({
 lvim.builtin.which_key.mappings["f"] = {
   name = "Find",
   c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
+  d = { "<cmd>Telescope dir live_grep<CR>", "Find Files in Directory" },
+  D = { "<cmd>Telescope dir find_files<CR>", "Find Directory" },
   h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
   f = { "<cmd>Telescope find_files<cr>", "Find File" },
   H = { "<cmd>Telescope highlights<cr>", "Find highlight groups" },
@@ -123,13 +124,27 @@ lvim.plugins = {
     },
   },
   {
-    'mrcjkb/rustaceanvim',
-    version = '^5', -- Recommended
+    "mrcjkb/rustaceanvim",
+    version = "^5", -- Recommended
     lazy = false,   -- This plugin is already lazy
   },
   {
     "cordx56/rustowl",
     dependencies = { "neovim/nvim-lspconfig" },
+  },
+  {
+    "princejoogie/dir-telescope.nvim",
+    -- telescope.nvim is a required dependency
+    dependencies = { "nvim-telescope/telescope.nvim" },
+    config = function()
+      require("dir-telescope").setup({
+        -- these are the default options set
+        hidden = true,
+        no_ignore = false,
+        show_preview = true,
+        follow_symlinks = false,
+      })
+    end,
   },
 }
 
@@ -143,16 +158,16 @@ lvim.autocommands = {
   },
 }
 
-local lspconfig = require 'lspconfig'
-local configs = require 'lspconfig.configs'
+local lspconfig = require("lspconfig")
+local configs = require("lspconfig.configs")
 
 if not configs.rustowl then
   configs.rustowl = {
     default_config = {
-      cmd = { 'cargo', 'owlsp' },
-      root_dir = lspconfig.util.root_pattern('.git'),
-      filetypes = { 'rust' },
+      cmd = { "cargo", "owlsp" },
+      root_dir = lspconfig.util.root_pattern(".git"),
+      filetypes = { "rust" },
     },
   }
 end
-lspconfig.rustowl.setup {}
+lspconfig.rustowl.setup({})
